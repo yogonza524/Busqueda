@@ -1,8 +1,0 @@
-#surefire
-#Fri Oct 14 14:02:46 ART 2016
-maven.ext.class.path=C\:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar
-user.dir=C\:\\Users\\pichon\\Documents\\NetBeansProjects\\Busqueda
-file.encoding=UTF-8
-localRepository=C\:\\Users\\pichon\\.m2\\repository
-basedir=C\:\\Users\\pichon\\Documents\\NetBeansProjects\\Busqueda
-test=MainTest

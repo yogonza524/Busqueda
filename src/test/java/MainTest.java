@@ -18,8 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -64,7 +62,7 @@ public class MainTest {
 //    @Ignore
     public void testGenGrafo() throws IOException{
         
-        String dir = "C:\\Users\\pichon\\Desktop\\PS\\grafoBusqueda.txt";
+        String dir = "/home/gonza/Descargas/grafo.txt";
         if ( !Util.validar(dir) ) {
             System.out.println("Archivo incorrecto");
         } else {
