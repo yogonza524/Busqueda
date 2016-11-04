@@ -61,12 +61,20 @@ public class Grafo implements Serializable{
             String nodo;
 
             if (par[0].equals(nombreNodo) || par[1].equals(nombreNodo)) {
+                Nodo origen = null;
+                Nodo destino = null;
                 if (par[0].equals(nombreNodo)) {
                     nodo = par[1];
+                    origen = this.nodos.get(nombreNodo);
+                    destino = this.nodos.get(par[1]);
                 }else{
                     nodo = par[0];
+                    origen = this.nodos.get(par[1]);
+                    destino = this.nodos.get(nombreNodo);
                 }
                 Arista a = new Arista(nodo, entry.getValue().getValor());
+                a.setOrigen(origen);
+                a.setDestino(destino);
                 result.add(a);
             }
         }

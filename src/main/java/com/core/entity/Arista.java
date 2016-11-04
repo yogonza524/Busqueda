@@ -13,8 +13,11 @@ import java.util.Objects;
  * @author pichon
  */
 public class Arista implements Serializable{
-    String nombre;
-    int valor;
+    private Nodo origen;
+    private Nodo destino;
+    private String nombre;
+    private int valor;
+    
     
     public Arista(){
         this.nombre = "Arista desconocida";
@@ -71,6 +74,22 @@ public class Arista implements Serializable{
             return false;
         }
         return true;
+    }
+
+    public Nodo getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(Nodo origen) {
+        this.origen = origen;
+    }
+
+    public Nodo getDestino() {
+        return destino;
+    }
+
+    public void setDestino(Nodo destino) {
+        this.destino = destino;
     }
     
     

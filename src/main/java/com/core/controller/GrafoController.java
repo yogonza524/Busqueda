@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 import ru.lanwen.verbalregex.VerbalExpression;
 
 /**
@@ -100,7 +101,7 @@ public class GrafoController implements Serializable{
                     }
 //                    System.out.println(nombreA + " " + valorArista);
                     //Aca creo la conexion entro los dos nodos con los valores obtenidos
-                    Arista a = new Arista(nombreA, Integer.parseInt(valorArista));
+                    Arista a = crearArista(g,nombreA, valorArista);
                     g.agregarArista(a);
                 }
             }
@@ -113,6 +114,38 @@ public class GrafoController implements Serializable{
         FileReader fr = new FileReader(dir);
         BufferedReader bf = new BufferedReader(fr);
         return bf;
+    }
+
+    private static Arista crearArista(Grafo grafo, String nombreArista, String valorArista) {
+        Arista result = new Arista(nombreArista, Integer.parseInt(valorArista));
+        //Buscar nodos
+        String origenNombre = nombreArista.split("-")[0];
+        String destinoNombre = nombreArista.split("-")[1];
+        
+        Nodo origen = null;
+        Nodo destino = null;
+        
+        int repetir = 0;
+        for(Map.Entry<String,Nodo> entry : grafo.getNodos().entrySet()){
+            if (repetir == 2) {
+                break;
+            }
+            if (entry.getKey().equals(origenNombre)) {
+                origen = new Nodo(origenNombre);
+                destino = new Nodo(destinoNombre);
+                repetir++;
+            }
+            else{
+                if (entry.getKey().equals(destinoNombre)) {
+                    origen = new Nodo(destinoNombre);
+                    destino = new Nodo(origenNombre);
+                    repetir++;
+                }
+            }
+        }
+        result.setOrigen(origen);
+        result.setDestino(destino);
+        return result;
     }
     
 }

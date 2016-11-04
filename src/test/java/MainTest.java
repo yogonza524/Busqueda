@@ -59,7 +59,7 @@ public class MainTest {
      
 
     @Test
-//    @Ignore
+    @Ignore
     public void testGenGrafo() throws IOException{
         
         String dir = "/home/gonza/Descargas/grafo.txt";
