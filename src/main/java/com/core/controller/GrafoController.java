@@ -13,6 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import ru.lanwen.verbalregex.VerbalExpression;
 
@@ -110,6 +113,56 @@ public class GrafoController implements Serializable{
         return g;
     }
     
+    public static Grafo desdeString(String grafoString){
+        Grafo result = null;
+        String g = grafoString.replaceAll("\n", "");
+        if (PATRON_ENTRADA.testExact(g)) {
+            result = new Grafo();
+            Map<String, Nodo> nodos = new HashMap<>();
+            Map<String, Arista> aristas = new HashMap<>();
+            //Grafo con sintaxis correcta
+            String nombre = grafoString
+                    .toUpperCase()
+                    .split("\\{")[0]
+                    .replaceAll("\\s+", "")
+                    .replaceAll("GRAFO", "");
+            String[] values = grafoString
+                    .split("\\{")[1]
+                    .replaceAll("}", "")
+                    .replaceAll("\\n", "")
+                    .split(";");
+            for(String val : values){
+                String label = val.split("\\(")[0];
+                Integer peso = Integer.valueOf(val.split("\\(")[1].replaceAll("\\s+", "").replaceAll("\\)", ""));
+                if (val.contains("-")) {
+                    //Es una arista
+                    Arista a = new Arista(label, peso);
+                    String origen = label.split("-")[0];
+                    String destino = label.split("-")[1];
+                    
+                    Nodo nodoOrigen = GrafoController.desdeNombre(nodos, origen);
+                    Nodo nodoDestino = GrafoController.desdeNombre(nodos, destino);
+                    
+                    a.setOrigen(nodoOrigen);
+                    a.setDestino(nodoDestino);
+                    
+                    aristas.put(label,a);
+                    
+                }
+                else{
+                    //Es un nodo
+                    Nodo n = new Nodo(label, peso);
+                    
+                    nodos.put(label,n);
+                }
+            }
+            result.setNombre(nombre);
+            result.setNodos(nodos);
+            result.setAristas(aristas);
+        }
+        return result;
+    }
+    
     private static BufferedReader leerFichero(String dir) throws FileNotFoundException{
         FileReader fr = new FileReader(dir);
         BufferedReader bf = new BufferedReader(fr);
@@ -147,5 +200,19 @@ public class GrafoController implements Serializable{
         result.setDestino(destino);
         return result;
     }
+    
+    public static Nodo desdeNombre(Map<String, Nodo> nodos, String nombre){
+        Nodo n = null;
+        if (!nombre.isEmpty() && nodos != null && nodos.size() > 0) {
+            for(Map.Entry<String, Nodo> nodo : nodos.entrySet()){
+                if (nodo.getValue().getNombre().equals(nombre)) {
+                    n = nodo.getValue();
+                    break;
+                }
+            }
+        }
+        return n;
+    }
+    
     
 }

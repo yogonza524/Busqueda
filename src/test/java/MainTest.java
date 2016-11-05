@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import com.core.controller.GrafoController;
 import com.core.entity.Arista;
 import com.core.entity.Grafo;
 import com.core.entity.Nodo;
@@ -18,6 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -59,7 +63,7 @@ public class MainTest {
      
 
     @Test
-    @Ignore
+//    @Ignore
     public void testGenGrafo() throws IOException{
         
         String dir = "/home/gonza/Descargas/grafo.txt";
@@ -68,11 +72,13 @@ public class MainTest {
         } else {
             Grafo g = Util.cargarGrafo(dir);
             System.out.println("Busqueda primero en aplitud");
-            busquedaAmplitud(g);
-            System.out.println("Busqueda primero en profundidad");
-            busquedaProfundidad(g);
-            busquedaEscaladaSimple(g);
-            busquedaEscaladaMaxima(g);
+            String salida = "";
+            busquedaAmplitud(g, salida, inicio, fin);
+            System.out.println(salida);
+//            System.out.println("Busqueda primero en profundidad");
+//            busquedaProfundidad(g);
+//            busquedaEscaladaSimple(g);
+//            busquedaEscaladaMaxima(g);
             aEstrella(g);
         }
     }
@@ -80,33 +86,36 @@ public class MainTest {
     String inicio = "A";
     String fin = "K";
     
-    private void busquedaAmplitud(Grafo g){ //funcionna bien
+    private void busquedaAmplitud(Grafo g, String result, String nodoInicioNombre, String nodoFinNombre){ //funcionna bien
+        result = "Algoritmo Primero en Amplitud";
+        result += "\nCantidad de nodos: " + g.getNodos().size();
+        result += "\nCantidad de aristas: " + g.getAristas().size();
         Queue<String> cola = new LinkedList<>();
         Queue<String> padresCola = new LinkedList<>();
         List<String> explorados = new ArrayList<>(); //LISTA-NODOS
         List<String> padresExplorados = new ArrayList<>();
         String nodoActual, nodoPadre;
-        cola.add(inicio);
+        cola.add(nodoInicioNombre);
         padresCola.add("#");
         while(true){
             System.out.println(cola);
             if (cola.isEmpty()) {
-                System.out.println("No se encontro el nodo destino");
+                result += "\nNo se encontro el nodo destino";
                 break;
             }
             nodoActual = cola.poll();
             nodoPadre = padresCola.poll();
             explorados.add(nodoActual);
             padresExplorados.add(nodoPadre);
-            if (nodoActual.equals(fin)) {
-                System.out.println("Nodo destino alcanzado"); //Mostrar camino
+            if (nodoActual.equals(nodoFinNombre)) {
+                result += "\nNodo destino alcanzado"; //Mostrar camino
                 String nodo = nodoActual;
                 String secuenciaResultado = "";
                 while(nodo != "#"){
                     secuenciaResultado = nodo + " " + secuenciaResultado;
                     nodo = padresExplorados.get(explorados.indexOf(nodo));
                 }
-                System.out.println("Camino solucion: " + secuenciaResultado);
+                result += "\nCamino solucion: " + secuenciaResultado;
                 break;
             }
             List<String> vecinos = g.nodosVecinos(nodoActual);
@@ -339,5 +348,37 @@ public class MainTest {
         return abiertos.get(posicion);
     }
     
+    @Test
+    @Ignore
+    public void ExpresionTest(){
+        String e = "GRAFO grafo    {"
+                + "\nA(23);"
+                + "\nB(12);"
+                + "\nC(1);"
+                + "}";
+        
+        String nombre = e.split("\\{")[0].replaceAll("\\s+", "").replaceAll("GRAFO", "");
+        System.out.println(nombre);
+        
+        String[] values = e.split("\\{")[1].replaceAll("}", "").replaceAll("\\n", "").split(";");
+        System.out.println("Values: ");
+        for(String v : values){
+            System.out.println(v);
+        }
+    }
 
+    @Test
+    @Ignore
+    public void StringToGrafoTest(){
+        String e = "GRAFO grafo{"
+                + "\nA(23);"
+                + "\nB(12);"
+                + "\nC(1);"
+                + "\nA-B(2);"
+                + "}";
+        Grafo g = GrafoController.desdeString(e);
+        if (g != null) {
+            System.out.println(g.getExpresion());
+        }
+    }
 }
