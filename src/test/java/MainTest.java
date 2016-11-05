@@ -71,10 +71,10 @@ public class MainTest {
             System.out.println("Archivo incorrecto");
         } else {
             Grafo g = Util.cargarGrafo(dir);
-            System.out.println("Busqueda primero en aplitud");
+//            System.out.println("Busqueda primero en aplitud");
             String salida = "";
-            busquedaAmplitud(g, salida, inicio, fin);
-            System.out.println(salida);
+//            busquedaAmplitud(g, salida, inicio, fin);
+//            System.out.println(salida);
 //            System.out.println("Busqueda primero en profundidad");
 //            busquedaProfundidad(g);
 //            busquedaEscaladaSimple(g);
