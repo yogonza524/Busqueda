@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import com.core.controller.AlgoritmoController;
 import com.core.controller.GrafoController;
 import com.core.entity.Arista;
 import com.core.entity.Grafo;
@@ -13,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -22,6 +24,7 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -63,7 +66,7 @@ public class MainTest {
      
 
     @Test
-//    @Ignore
+    @Ignore
     public void testGenGrafo() throws IOException{
         
         String dir = "/home/gonza/Descargas/grafo.txt";
@@ -379,6 +382,29 @@ public class MainTest {
         Grafo g = GrafoController.desdeString(e);
         if (g != null) {
             System.out.println(g.getExpresion());
+        }
+    }
+    
+    @Test
+    public void solucionTest() throws IOException{
+        String dir = "/home/gonza/Descargas/grafo.txt";
+        if ( !Util.validar(dir) ) {
+            System.out.println("Archivo incorrecto");
+        } else {
+            Grafo g = Util.cargarGrafo(dir);
+//            System.out.println("Busqueda primero en aplitud");
+            String salida = "";
+//            busquedaAmplitud(g, salida, inicio, fin);
+//            System.out.println(salida);
+//            System.out.println("Busqueda primero en profundidad");
+//            busquedaProfundidad(g);
+//            busquedaEscaladaSimple(g);
+//            busquedaEscaladaMaxima(g);
+            String result = AlgoritmoController.aEstrella(g, inicio, fin);
+            String solucion = result.split("Nodo fin alcanzado\n")[1];
+            String[] array = solucion.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+            ArrayUtils.reverse(array);
+            System.out.println("Solucion: " + Arrays.toString(array));
         }
     }
 }
