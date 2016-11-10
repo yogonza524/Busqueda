@@ -28,8 +28,8 @@ public class AlgoritmoController {
     public static Solucion busquedaAmplitud(Grafo g, String nodoInicioNombre, String nodoFinNombre){ //funcionna bien
         Solucion result = new Solucion();
         result.setPasos("Algoritmo de Busqueda Primero en Amplitud");
-        result.agregarPaso("\nCantidad de nodos: " + g.getNodos().size());
-        result.agregarPaso("\nCantidad de aristas: " + g.getAristas().size());
+        result.agregarPaso("Cantidad de nodos: " + g.getNodos().size());
+        result.agregarPaso("Cantidad de aristas: " + g.getAristas().size());
         Queue<String> cola = new LinkedList<>();
         Queue<String> padresCola = new LinkedList<>();
         List<String> explorados = new ArrayList<>(); //LISTA-NODOS
@@ -40,7 +40,7 @@ public class AlgoritmoController {
         while(true){
             System.out.println(cola);
             if (cola.isEmpty()) {
-                result.agregarPaso("\nNo se encontro el nodo destino");
+                result.agregarPaso("No se encontro el nodo destino");
                 break;
             }
             nodoActual = cola.poll();
@@ -48,14 +48,14 @@ public class AlgoritmoController {
             explorados.add(nodoActual);
             padresExplorados.add(nodoPadre);
             if (nodoActual.equals(nodoFinNombre)) {
-                result.agregarPaso("\nNodo fin alcanzado"); //Mostrar camino
+                result.agregarPaso("Nodo fin alcanzado"); //Mostrar camino
                 String nodo = nodoActual;
                 String secuenciaResultado = "";
                 while(nodo != "#"){
                     secuenciaResultado = nodo + " " + secuenciaResultado;
                     nodo = padresExplorados.get(explorados.indexOf(nodo));
                 }
-                result.agregarPaso("\nCamino solucion: " + secuenciaResultado);
+                result.agregarPaso("Camino solucion: " + secuenciaResultado);
                 break;
             }
             List<String> vecinos = g.nodosVecinos(nodoActual);
