@@ -64,7 +64,7 @@ public class GrafoController implements Serializable{
             val = val + sCadena;
         }
         val = val + "}";
-        return PATRON_ENTRADA.testExact(val); 
+        return PATRON_ENTRADA.testExact(val.toUpperCase()); 
     }
     
     public static Grafo desdeArchivo(String dir) throws FileNotFoundException, IOException {
