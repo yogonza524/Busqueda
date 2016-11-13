@@ -115,7 +115,7 @@ public class GrafoController implements Serializable{
     
     public static Grafo desdeString(String grafoString){
         Grafo result = null;
-        String g = grafoString.replaceAll("\n", "");
+        String g = grafoString.replaceAll("\n", "").toUpperCase();
         if (PATRON_ENTRADA.testExact(g)) {
             result = new Grafo();
             Map<String, Nodo> nodos = new HashMap<>();
